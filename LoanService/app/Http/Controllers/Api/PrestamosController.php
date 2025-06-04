@@ -65,11 +65,6 @@ class PrestamosController extends Controller
     {
         $prestamo = Prestamo::findOrFail($id);
 
-        // Check if user has permission to view this loan
-        if (!Auth::user()->isAdmin() && Auth::id() !== $prestamo->user_id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
         return response()->json($prestamo);
     }
 
@@ -117,10 +112,6 @@ class PrestamosController extends Controller
 
     public function userLoans($userId)
     {
-        // Check if user has permission to view these loans
-        if (!Auth::user()->isAdmin() && Auth::id() !== (int)$userId) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
 
         $prestamos = Prestamo::where('user_id', $userId)
             ->when(request('estado'), function ($query, $estado) {
