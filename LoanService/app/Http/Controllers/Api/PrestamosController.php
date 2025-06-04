@@ -42,19 +42,16 @@ class PrestamosController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'libro_id' => 'required|integer|exists:libros,id',
-            'user_id' => 'required|integer|exists:users,id',
+            'libro_id' => 'required|integer',
+            'user_id' => 'required|integer',
             'fecha_prestamo' => 'required|date',
-            'fecha_devolucion_prevista' => 'required|date|after:fecha_prestamo',
-            'estado' => 'required|string|in:' . implode(',', Prestamo::ESTADOS()),
+            'fecha_devolucion_prevista' => 'required|date',
+            'estado' => 'required|string'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
-        // TODO: Verify if user has active sanctions
-        // TODO: Verify if book is available
 
         $prestamo = Prestamo::create($request->all());
 

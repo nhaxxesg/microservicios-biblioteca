@@ -14,22 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
-    // Préstamos routes
-    Route::get('/prestamos', [PrestamosController::class, 'index'])
-        ->middleware('can:view-any,App\Models\Prestamo');
-    
-    Route::post('/prestamos', [PrestamosController::class, 'store'])
-        ->middleware('can:create,App\Models\Prestamo');
-    
-    Route::get('/prestamos/{id}', [PrestamosController::class, 'show'])
-        ->middleware('can:view,prestamo');
-    
-    Route::put('/prestamos/{id}', [PrestamosController::class, 'update'])
-        ->middleware('can:update,prestamo');
-    
-    Route::delete('/prestamos/{id}', [PrestamosController::class, 'destroy'])
-        ->middleware('can:delete,prestamo');
-    
-    Route::get('/prestamos/usuario/{user_id}', [PrestamosController::class, 'userLoans']);
-});
+// Préstamos routes
+Route::get('/prestamos', [PrestamosController::class, 'index']);
+
+Route::post('/prestamos', [PrestamosController::class, 'store']);
+
+Route::get('/prestamos/{id}', [PrestamosController::class, 'show']);
+
+Route::put('/prestamos/{id}', [PrestamosController::class, 'update']);
+
+Route::delete('/prestamos/{id}', [PrestamosController::class, 'destroy']);
+
+Route::get('/prestamos/usuario/{user_id}', [PrestamosController::class, 'userLoans']);
