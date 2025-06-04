@@ -23,11 +23,13 @@ class RequestService implements RequestServiceInterface
      *
      * @param array $data
      * @return Request
-     */
-    public function createRequest(array $data): Request
+     */    public function createRequest(array $data): Request
     {
         // Validar estado inicial
         $data['estado'] = 'pendiente';
+        
+        // Eliminar cualquier valor de fecha_de_registro que venga en los datos
+        unset($data['fecha_de_registro']);
         
         $request = $this->repository->create($data);
         

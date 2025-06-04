@@ -13,7 +13,4 @@ use App\Http\Controllers\Api\RequestController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('solicitudes', RequestController::class)->except(['destroy']);
-});
+Route::apiResource('solicitudes', RequestController::class)->except(['destroy']);

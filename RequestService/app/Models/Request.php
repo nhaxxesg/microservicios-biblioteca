@@ -26,10 +26,10 @@ class Request extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'fecha_de_registro' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+    protected $dates = [
+        'fecha_de_registro',
+        'created_at',
+        'updated_at'
     ];
 
     /**
