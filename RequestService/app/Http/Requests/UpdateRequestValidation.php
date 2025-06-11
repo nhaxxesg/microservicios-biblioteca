@@ -26,6 +26,7 @@ class UpdateRequestValidation extends FormRequest
         return [
             'estado' => ['sometimes', 'required', Rule::in(Request::ESTADOS)],
             'prestamo_id' => ['sometimes', 'required', 'integer', 'min:1'],
+            'book_id' => ['sometimes', 'required', 'integer', 'min:1'],
         ];
     }
 

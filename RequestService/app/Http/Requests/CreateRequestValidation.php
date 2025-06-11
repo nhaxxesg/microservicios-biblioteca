@@ -24,6 +24,7 @@ class CreateRequestValidation extends FormRequest
         return [
             'usuario_id' => ['required', 'integer', 'min:1'],
             'descripcion' => ['required', 'string', 'min:10', 'max:1000'],
+            'book_id' => ['required', 'integer', 'min:1'],
         ];
     }
 

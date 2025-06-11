@@ -23,7 +23,8 @@ class RequestService implements RequestServiceInterface
      *
      * @param array $data
      * @return Request
-     */    public function createRequest(array $data): Request
+     */    
+    public function createRequest(array $data): Request
     {
         // Validar estado inicial
         $data['estado'] = 'pendiente';
