@@ -8,16 +8,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class UserLocal extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    protected $connection  = "auth_db";
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
+    protected $connection = "mysql";
+
     protected $fillable = [
         'name',
         'email',

@@ -7,19 +7,23 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use \App\Services\UserServiceLocal;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends BaseController
 {
     protected $userService;
+    protected $userServiceLocal;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, UserServiceLocal $userServiceLocal)
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
         $this->userService = $userService;
+        $this->userServiceLocal = $userServiceLocal;
     }
 
     public function login(Request $request): JsonResponse
@@ -29,7 +33,9 @@ class AuthController extends BaseController
             'password' => ['required', 'string'],
         ]);
         
-        if (! $token = auth('api')->attempt($credentials)) {
+        $token = auth('api')->attempt($credentials);
+
+        if (! $token) {
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 
@@ -74,20 +80,30 @@ class AuthController extends BaseController
             'password' => bcrypt($credentials['password']),
             'role_id'  => $credentials['role_id'] ?? 1,
         ]);
-
+        // Verificar si el servicio retornó datos válidos
+        $this->userServiceLocal->create([
+            'name'     => $credentials['name'],
+            'email'    => $credentials['email'],
+            'password' => bcrypt($credentials['password']),
+            'role_id'  => $credentials['role_id'] ?? 1,
+        ]);
         // Verificar si el servicio retornó datos válidos
         if (empty($userData)) {
             throw new \Exception('User service returned empty response');
-        }
+        }   
+
         $login_credentials = [
             'email'    => $userData['email'],
             'password' => $credentials['password'], // sin bcrypt aquí, auth()->attempt() espera sin encriptar
         ];
         // Intentar autenticación (usa credenciales originales del request)
-        if (! $token = auth('api')->attempt($login_credentials)) {
+        $token = auth('api')->attempt($login_credentials);
+        if (! $token) {
             Log::error('Falló autenticación después de registrar usuario: ' . $credentials['email']);
             return response()->json(['error' => 'Authentication failed after registration ' . $credentials['email']], Response::HTTP_UNAUTHORIZED);
         }
+
+       
         Log::error('Usuario registrado y autenticado: ' . $credentials['email']. ' con token: ' . $token);
         return $this->respondWithToken($token);
 

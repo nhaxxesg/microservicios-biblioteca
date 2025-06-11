@@ -46,7 +46,8 @@ class PrestamosController extends Controller
             'user_id' => 'required|integer',
             'fecha_prestamo' => 'required|date',
             'fecha_devolucion_prevista' => 'required|date',
-            'estado' => 'required|string'
+            'estado' => 'required|string',
+            'prestamo_id' => 'nullable|integer'
         ]);
 
         if ($validator->fails()) {

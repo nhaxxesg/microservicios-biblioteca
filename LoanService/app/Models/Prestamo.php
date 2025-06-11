@@ -16,10 +16,12 @@ class Prestamo extends Model
         'libro_id',
         'user_id',
         'sancion_id',
+        'solicitud_id',
         'fecha_prestamo',
         'fecha_devolucion_prevista',
         'fecha_devolucion_real',
-        'estado'
+        'estado',
+        'prestamo_id'
     ];
 
     protected $dates = [
