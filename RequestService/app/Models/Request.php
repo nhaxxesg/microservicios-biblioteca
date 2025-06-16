@@ -18,7 +18,8 @@ class Request extends Model
         'usuario_id',
         'descripcion',
         'estado',
-        'prestamo_id'
+        'prestamo_id',
+        'book_id' 
     ];
 
     /**
