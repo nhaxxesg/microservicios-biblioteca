@@ -61,6 +61,13 @@ class NotificationController extends Controller
         }
     }
 
+    public function index()
+    {
+        $notifications = \App\Models\Notification::orderByDesc('created_at')->get();
+
+        return response()->json($notifications);
+    }
+
     private function processNotification(Notification $notification, array $templateData, bool $async)
     {
         if ($async) {

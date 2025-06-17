@@ -11,9 +11,12 @@ class bookController extends Controller
     /**
      * Display a listing of the resource.
      */
-     public function index()
+     public function index(Request $request)
     {
-        return response()->json(book::all(), 200);
+        $perPage = $request->query('per_page', 10); // Valor por defecto: 10
+        $books = book::paginate($perPage);
+
+        return response()->json($books, 200);
     }
 
     /**

@@ -28,7 +28,7 @@ class AuthController extends BaseController
             'email'    => ['required', 'email'],
             'password' => ['required', 'string']
         ]);
-        
+
         if (! $token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
@@ -63,40 +63,39 @@ class AuthController extends BaseController
     }
 
     public function register(RegisterRequest $request): JsonResponse
-{
-    $credentials = $request->validated();
+    {
+        $credentials = $request->validated();
 
-    try {
-        // Crear usuario usando el servicio - sin encriptar la contraseña aquí
-        $user = $this->userService->createUser([
-            'name'     => $credentials['name'],
-            'email'    => $credentials['email'],
-            'password' => $credentials['password'], // Sin bcrypt, lo hará el servicio
-            'role_id'  => $credentials['role_id'] ?? 1,
-        ]);
+        try {
+            // Crear usuario usando el servicio - sin encriptar la contraseña aquí
+            $user = $this->userService->createUser([
+                'name'     => $credentials['name'],
+                'email'    => $credentials['email'],
+                'password' => $credentials['password'], // Sin bcrypt, lo hará el servicio
+                'role_id'  => $credentials['role_id'] ?? 1,
+            ]);
 
-        // Verificar si el servicio retornó un usuario válido
-        if (!$user) {
-            throw new \Exception('User service returned empty response');
+            // Verificar si el servicio retornó un usuario válido
+            if (!$user) {
+                throw new \Exception('User service returned empty response');
+            }
+
+            $login_credentials = [
+                'email'    => $credentials['email'],
+                'password' => $credentials['password'], // contraseña sin encriptar para auth()->attempt()
+            ];
+
+            // Intentar autenticación
+            if (!$token = auth('api')->attempt($login_credentials)) {
+                Log::error('Falló autenticación después de registrar usuario: ' . $credentials['email']);
+                return response()->json(['error' => 'Authentication failed after registration ' . $credentials['email']], Response::HTTP_UNAUTHORIZED);
+            }
+
+            Log::info('Usuario registrado y autenticado: ' . $credentials['email']);
+            return $this->respondWithToken($token);
+        } catch (\Exception $e) {
+            Log::error('Error en registro: ' . $e->getMessage());
+            return response()->json(['error' => 'User registration failed: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        
-        $login_credentials = [
-            'email'    => $credentials['email'],
-            'password' => $credentials['password'], // contraseña sin encriptar para auth()->attempt()
-        ];
-        
-        // Intentar autenticación
-        if (!$token = auth('api')->attempt($login_credentials)) {
-            Log::error('Falló autenticación después de registrar usuario: ' . $credentials['email']);
-            return response()->json(['error' => 'Authentication failed after registration ' . $credentials['email']], Response::HTTP_UNAUTHORIZED);
-        }
-        
-        Log::info('Usuario registrado y autenticado: ' . $credentials['email']);
-        return $this->respondWithToken($token);
-
-    } catch (\Exception $e) {
-        Log::error('Error en registro: ' . $e->getMessage());
-        return response()->json(['error' => 'User registration failed: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-}
 }

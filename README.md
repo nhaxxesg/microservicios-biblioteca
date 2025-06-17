@@ -21,6 +21,9 @@ Respuesta json
 
 El token tiene el id del usuario y no tiene expiracion esta con valor de 900000 en la expiracion
 
+ejecutar si da error
+php artisan jwt:secret
+
 
 ## AUTH SERVICE Y USER SERVICE
 

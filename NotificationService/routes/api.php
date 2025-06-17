@@ -11,4 +11,5 @@ use App\Http\Controllers\NotificationController;
 
 Route::prefix('api')->middleware(['api', 'auth:sanctum'])->group(function () {
     Route::post('/notifications/send', [NotificationController::class, 'send']);
+    Route::get('notifications', [NotificationController::class, 'index']);
 });
