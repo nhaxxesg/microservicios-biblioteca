@@ -1,0 +1,6 @@
+.env.shared
+**/.env
+vendor/
+node_modules/
+*.log
+.env

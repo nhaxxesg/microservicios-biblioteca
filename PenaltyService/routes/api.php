@@ -10,7 +10,7 @@ use App\Http\Controllers\SancionController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth.jwt')->group(function () {
     // Rutas protegidas por autenticación
     Route::apiResource('sanciones', SancionController::class);
     Route::get('sanciones/usuario/{usuario_id}', [SancionController::class, 'porUsuario']);

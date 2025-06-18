@@ -53,3 +53,8 @@ Respuesta json
   "message": "Solicitud creada exitosamente."
 }
 ```
+
+## CREAR
+
+crear un .env.shared donde estara: JWT_SECRET
+compartido para los microservicios
