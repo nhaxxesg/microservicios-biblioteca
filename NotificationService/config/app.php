@@ -164,5 +164,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\NotificationServiceProvider::class,
+        App\Providers\UserNotificationServiceProvider::class,
     ],
 ];

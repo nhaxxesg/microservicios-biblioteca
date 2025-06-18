@@ -42,6 +42,9 @@ class CreateRequestValidation extends FormRequest
             'descripcion.required' => 'La descripción es requerida',
             'descripcion.min' => 'La descripción debe tener al menos :min caracteres',
             'descripcion.max' => 'La descripción no puede exceder :max caracteres',
+            'book_id.required' => 'El ID del libro es requerido',
+            'book_id.integer' => 'El ID del libro debe ser un número entero',
+            'book_id.min' => 'El ID del libro no es válido',
         ];
     }
 }

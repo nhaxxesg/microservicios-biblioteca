@@ -30,7 +30,7 @@ class AuthController extends BaseController
     {
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
-            'password' => ['required', 'string'],
+            'password' => ['required', 'string']
         ]);
         
         $token = auth('api')->attempt($credentials);
@@ -73,30 +73,24 @@ class AuthController extends BaseController
     $credentials = $request->validated();
 
     try {
-        // Crear usuario usando el servicio
-        $userData = $this->userService->createUser([
+        // Crear usuario usando el servicio - sin encriptar la contraseña aquí
+        $user = $this->userService->createUser([
             'name'     => $credentials['name'],
             'email'    => $credentials['email'],
-            'password' => bcrypt($credentials['password']),
+            'password' => $credentials['password'], // Sin bcrypt, lo hará el servicio
             'role_id'  => $credentials['role_id'] ?? 1,
         ]);
-        // Verificar si el servicio retornó datos válidos
-        $this->userServiceLocal->create([
-            'name'     => $credentials['name'],
-            'email'    => $credentials['email'],
-            'password' => bcrypt($credentials['password']),
-            'role_id'  => $credentials['role_id'] ?? 1,
-        ]);
+    
         // Verificar si el servicio retornó datos válidos
         if (empty($userData)) {
             throw new \Exception('User service returned empty response');
         }   
 
         $login_credentials = [
-            'email'    => $userData['email'],
-            'password' => $credentials['password'], // sin bcrypt aquí, auth()->attempt() espera sin encriptar
+            'email'    => $credentials['email'],
+            'password' => $credentials['password'], // contraseña sin encriptar para auth()->attempt()
         ];
-        // Intentar autenticación (usa credenciales originales del request)
+        
         $token = auth('api')->attempt($login_credentials);
         if (! $token) {
             Log::error('Falló autenticación después de registrar usuario: ' . $credentials['email']);
@@ -109,7 +103,7 @@ class AuthController extends BaseController
 
     } catch (\Exception $e) {
         Log::error('Error en registro: ' . $e->getMessage());
-        return response()->json(['error' => 'User registration failed'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        return response()->json(['error' => 'User registration failed: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
 }

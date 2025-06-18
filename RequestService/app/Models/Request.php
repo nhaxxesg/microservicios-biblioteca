@@ -19,7 +19,7 @@ class Request extends Model
         'descripcion',
         'estado',
         'prestamo_id',
-        'book_id',
+        'book_id' 
     ];
 
     /**

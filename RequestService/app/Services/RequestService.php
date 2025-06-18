@@ -32,6 +32,11 @@ class RequestService implements RequestServiceInterface
         // Eliminar cualquier valor de fecha_de_registro que venga en los datos
         unset($data['fecha_de_registro']);
         
+        // Asegurar que book_id está presente
+        if (!isset($data['book_id'])) {
+            throw new \InvalidArgumentException('El ID del libro es requerido para crear una solicitud');
+        }
+        
         $request = $this->repository->create($data);
         
         // Registrar el evento
