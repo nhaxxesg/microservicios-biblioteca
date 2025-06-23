@@ -7,7 +7,6 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use \App\Services\UserServiceLocal;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
@@ -17,13 +16,11 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends BaseController
 {
     protected $userService;
-    protected $userServiceLocal;
 
-    public function __construct(UserService $userService, UserServiceLocal $userServiceLocal)
+    public function __construct(UserService $userService)
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
         $this->userService = $userService;
-        $this->userServiceLocal = $userServiceLocal;
     }
 
     public function login(Request $request): JsonResponse
@@ -74,7 +71,7 @@ class AuthController extends BaseController
 
     try {
         // Crear usuario usando el servicio - sin encriptar la contraseña aquí
-        $user = $this->userService->createUser([
+        $userData = $this->userService->createUser([
             'name'     => $credentials['name'],
             'email'    => $credentials['email'],
             'password' => $credentials['password'], // Sin bcrypt, lo hará el servicio
@@ -90,7 +87,7 @@ class AuthController extends BaseController
             'email'    => $credentials['email'],
             'password' => $credentials['password'], // contraseña sin encriptar para auth()->attempt()
         ];
-        
+
         $token = auth('api')->attempt($login_credentials);
         if (! $token) {
             Log::error('Falló autenticación después de registrar usuario: ' . $credentials['email']);

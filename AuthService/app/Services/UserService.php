@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Models\UserLocal;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -20,13 +19,27 @@ class UserService
 
         return $user;
     }   
+    public function delete(User $user)
+    {
+        return $user->delete();
+    }
+
+    public function findById($id)
+    {
+        return User::findOrFail($id);
+    }
+
+    public function getAll()
+    {
+        return User::with('role')->paginate(10);
+    }
 }
 
 class UserServiceLocal
 {
     public function create(array $data)
     {
-        return UserLocal::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -50,18 +63,18 @@ class UserServiceLocal
         return $user;
     }
 
-    public function delete(UserLocal $user)
+    public function delete(User $user)
     {
         return $user->delete();
     }
 
     public function findById($id)
     {
-        return UserLocal::findOrFail($id);
+        return User::findOrFail($id);
     }
 
     public function getAll()
     {
-        return UserLocal::with('role')->paginate(10);
+        return User::with('role')->paginate(10);
     }
 }
