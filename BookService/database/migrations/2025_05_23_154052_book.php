@@ -9,10 +9,9 @@ return new class extends Migration {
     {
         Schema::create('book', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_autor');
             $table->string('titulo');
-            $table->string('autor');
             $table->integer('anio_publicacion');
-            $table->string('categoria');
             $table->enum('estado', ['disponible', 'prestado'])->default('disponible');
             $table->timestamps();
         });

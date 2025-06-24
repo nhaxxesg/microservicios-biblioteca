@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('descripcion');
             $table->string('estado', 50)->default('pendiente')->index();
             $table->timestamp('fecha_de_registro')->useCurrent();
-            $table->unsignedBigInteger('prestamo_id')->nullable()->index();
             $table->timestamps();
         });
     }

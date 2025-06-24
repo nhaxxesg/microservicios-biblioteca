@@ -14,9 +14,8 @@ class book extends Model
     // Campos que se pueden asignar masivamente
     protected $fillable = [
         'titulo',
-        'autor',
+        'id_autor',
         'anio_publicacion',
-        'categoria',
         'estado',
     ];
 
@@ -28,9 +27,4 @@ class book extends Model
         'anio_publicacion' => 'integer',
     ];
 
-    // Relaciones (opcional, si luego agregas préstamos u otras tablas)
-    // public function prestamos()
-    // {
-    //     return $this->hasMany(Prestamo::class);
-    // }
 }
