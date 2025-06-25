@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id')->index();
+            $table->integer('id_usuario');
+            $table->integer('id_libro');
             $table->text('descripcion');
             $table->string('estado', 50)->default('pendiente')->index();
             $table->timestamp('fecha_de_registro')->useCurrent();

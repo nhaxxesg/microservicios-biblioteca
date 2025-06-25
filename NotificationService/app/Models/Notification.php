@@ -3,28 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Notification extends Model
 {
-    protected $table = 'log_notificaciones';
-
+    //
+    use HasFactory;
     protected $fillable = [
-        'tracking_id',
-        'event_source_id',
-        'event_type',
-        'recipient_email',
-        'subject',
-        'template_used',
-        'status',
-        'sent_at',
-        'processed_at',
-        'attempts',
-        'error_details'
-    ];
-
-    protected $casts = [
-        'sent_at' => 'datetime',
-        'processed_at' => 'datetime',
-        'attempts' => 'integer'
+        'user_id',
+        'mensaje',
+        'f_envio',
+        'f_visto',
+        'tipo',
+        'estado'
     ];
 }
