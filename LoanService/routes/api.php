@@ -1,28 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\PrestamosController;
+use App\Http\Controllers\Api\LoansController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group.
-|
-*/
-
-// Préstamos routes
-Route::get('/prestamos', [PrestamosController::class, 'index']);
-
-Route::post('/prestamos', [PrestamosController::class, 'store']);
-
-Route::get('/prestamos/{id}', [PrestamosController::class, 'show']);
-
-Route::put('/prestamos/{id}', [PrestamosController::class, 'update']);
-
-Route::delete('/prestamos/{id}', [PrestamosController::class, 'destroy']);
-
-Route::get('/prestamos/usuario/{user_id}', [PrestamosController::class, 'userLoans']);
+Route::get('prestamos',[LoansController::class, 'index']);
+Route::get('prestamos/{id}', [LoansController::class, 'show']);
+Route::post('prestamos', [LoansController::class, 'store']);
+Route::put('prestamos/{id}', [LoansController::class, 'update']);
