@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
             $table->integer('id_usuario');
             $table->integer('id_libro');
-            $table->text('descripcion');
-            $table->string('estado', 50)->default('pendiente')->index();
-            $table->timestamp('fecha_de_registro')->useCurrent();
+            $table->string('estado', 50)->default('pendiente');
+            $table->timestamp('fecha_de_registro');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('solicitudes');
     }
 };

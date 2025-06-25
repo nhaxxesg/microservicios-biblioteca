@@ -1,16 +1,11 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\RequestController;
+use App\Http\Controllers\SolicitudesController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-Route::apiResource('solicitudes', RequestController::class)->except(['destroy']);
+Route::get('solicitudes',[SolicitudesController::class, 'index']);
+Route::post('solicitudes',[SolicitudesController::class, 'store']);
+Route::get('solicitudes/{id}',[SolicitudesController::class, 'show']);
+Route::put('solicitudes/{id}',[SolicitudesController::class, 'update']);
+
