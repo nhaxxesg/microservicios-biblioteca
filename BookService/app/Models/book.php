@@ -16,6 +16,7 @@ class book extends Model
         'titulo',
         'id_autor',
         'anio_publicacion',
+        'ejemplares',
         'estado',
     ];
 

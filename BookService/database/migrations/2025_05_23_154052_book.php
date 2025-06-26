@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->integer('id_autor');
             $table->string('titulo');
             $table->integer('anio_publicacion');
+            $table->integer('ejemplares')->default(1);
             $table->enum('estado', ['disponible', 'prestado'])->default('disponible');
             $table->timestamps();
         });
