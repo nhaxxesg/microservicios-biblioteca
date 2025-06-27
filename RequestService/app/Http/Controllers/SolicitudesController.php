@@ -25,9 +25,9 @@ class SolicitudesController extends Controller
         $request->validate([
             'id_usuario' => 'required|integer',
             'id_libro' => 'required|integer',
-            'estado' => 'required|string|max:50',
-            'fecha_de_registro' => 'required|date',
+            'estado' => 'in:pendiente,aprobado,rechazado',
         ]);
+        
         $solicitud = Solicitudes::create($request->all());
         return response()->json($solicitud, 201);
     }
@@ -35,7 +35,7 @@ class SolicitudesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
         $solicitud = Solicitudes::find($id);
@@ -48,15 +48,14 @@ class SolicitudesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,$id)
     {
         //
         $solicitud = Solicitudes::findOrFail($id);
         $request->validate([
             'id_usuario' => 'required|integer',
             'id_libro' => 'required|integer',
-            'estado' => 'required|string|max:50',
-            'fecha_de_registro' => 'required|date',
+            'estado' => 'required|string',
         ]);
         $solicitud->update($request->all());
         return response()->json($solicitud, 200);

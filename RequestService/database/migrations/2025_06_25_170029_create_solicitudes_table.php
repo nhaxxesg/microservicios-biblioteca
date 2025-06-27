@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('id_usuario');
             $table->integer('id_libro');
             $table->string('estado', 50)->default('pendiente');
-            $table->timestamp('fecha_de_registro');
             $table->timestamps();
         });
     }
