@@ -25,8 +25,9 @@ class bookController extends Controller
             'titulo' => 'required|string|max:255',
             'id_autor' => 'required|integer|max:255',
             'anio_publicacion' => 'required|digits:4|integer|min:1000|max:' . date('Y'),
-            'ejemplares' => 'required|integer|min:1',
-            'estado' => 'in:disponible,prestado'
+            'estado' => 'in:disponible,agotado',
+            'ejemplares' => 'required|integer|min:0',
+            'imagen' => 'required|string|max:255',
         ]);
 
         $libro = book::create($request->all());

@@ -18,6 +18,7 @@ class book extends Model
         'anio_publicacion',
         'ejemplares',
         'estado',
+        'imagen',
     ];
 
     // Si quieres proteger contra otros atributos no deseados
@@ -26,6 +27,7 @@ class book extends Model
     // Casts para formatos específicos
     protected $casts = [
         'anio_publicacion' => 'integer',
+        'ejemplares' => 'integer',
     ];
 
 }

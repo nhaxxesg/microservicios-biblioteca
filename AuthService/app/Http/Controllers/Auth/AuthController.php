@@ -27,13 +27,34 @@ class AuthController extends BaseController
     {
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
-            'password' => ['required', 'string']
+            'password' => ['required', 'string'],
+            'application' => ['required', 'string', 'in:desktop,web,movil'],
         ]);
         
-        $token = auth('api')->attempt($credentials);
+        $token = auth('api')->attempt([
+            'email' => $credentials['email'],
+            'password' => $credentials['password']
+        ]);
 
         if (! $token) {
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Obtener el usuario autenticado
+        $user = auth('api')->user();
+        
+        // Validar que el role_id del usuario coincida con el tipo de aplicación
+        $isValidRole = $this->validateUserRoleForApplication($user->role_id, $credentials['application']);
+        
+        if (!$isValidRole) {
+            // Hacer logout del usuario ya que no tiene permisos para esta aplicación
+            auth('api')->logout();
+            
+            $roleName = $this->getRoleName($user->role_id);
+            return response()->json([
+                'error' => 'Access denied', 
+                'message' => "El usuario con rol '{$roleName}' no tiene permisos para acceder a la aplicación '{$credentials['application']}'"
+            ], Response::HTTP_FORBIDDEN);
         }
 
         return $this->respondWithToken($token);
@@ -103,4 +124,46 @@ class AuthController extends BaseController
         return response()->json(['error' => 'User registration failed: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
+
+    /**
+     * Validar que el role_id del usuario sea válido para el tipo de aplicación
+     * 
+     * @param int|null $roleId
+     * @param string $application
+     * @return bool
+     */
+    private function validateUserRoleForApplication($roleId, string $application): bool
+    {
+        switch ($application) {
+            case 'desktop':
+                // Solo administradores (role_id = 2) pueden acceder a desktop
+                return $roleId === 2;
+                
+            case 'web':
+            case 'movil':
+                // Solo usuarios regulares (role_id = 1) pueden acceder a web y móvil
+                return $roleId === 1;
+                
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Obtener el nombre del rol basado en el role_id
+     * 
+     * @param int|null $roleId
+     * @return string
+     */
+    private function getRoleName($roleId): string
+    {
+        switch ($roleId) {
+            case 1:
+                return 'usuario';
+            case 2:
+                return 'admin';
+            default:
+                return 'sin rol';
+        }
+    }
 }
