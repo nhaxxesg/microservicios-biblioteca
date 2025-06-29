@@ -18,6 +18,20 @@ class LoansController extends Controller
     }
 
     /**
+     * Obtener todos los préstamos de un usuario específico.
+     */
+    public function prestamosPorUsuario($id_usuario)
+    {
+        $prestamos = Loans::where('id_lector', $id_usuario)->get();
+        
+        if ($prestamos->isEmpty()) {
+            return response()->json(['mensaje' => 'No se encontraron préstamos para este usuario'], 404);
+        }
+        
+        return response()->json($prestamos, 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -30,7 +44,7 @@ class LoansController extends Controller
         'loan_date' => 'required|date',
         'f_devolucion_establecida' => 'required|date',
         'f_devolucion_real' => 'nullable|date',
-        'estado' => 'required|in:pendiente,devuelto',
+        'estado' => 'required|in:pendiente,devuelto,activo',
     ]);
 
         $Loan = Loans::create($request->all());

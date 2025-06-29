@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->integer('anio_publicacion');
             $table->integer('ejemplares')->default(1);
             $table->enum('estado', ['disponible', 'prestado'])->default('disponible');
-            $table->integer('ejemplares')->default(0);
             $table->string('imagen')->nullable();
             $table->timestamps();
         });

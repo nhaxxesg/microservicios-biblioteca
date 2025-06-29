@@ -22,6 +22,7 @@ class UpdateSancionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'book_id' => 'sometimes|integer',
             'motivo' => 'sometimes|string',
             'fecha_inicio' => 'sometimes|date',
             'fecha_fin' => 'sometimes|date|after:fecha_inicio',
@@ -32,6 +33,7 @@ class UpdateSancionRequest extends FormRequest
     public function messages()
     {
         return [
+            'book_id.integer' => 'El ID del libro debe ser un número entero',
             'fecha_fin.after' => 'La fecha de fin debe ser posterior a la fecha de inicio',
             'estado.in' => 'El estado debe ser: activa, cumplida, cancelada o apelada'
         ];

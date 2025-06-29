@@ -121,4 +121,22 @@ class SancionController extends Controller
             return response()->json(['error' => 'Error al obtener las sanciones'], 500);
         }
     }
+
+    public function porLibro($book_id, Request $request)
+    {
+        try {
+            $query = Sancion::where('book_id', $book_id);
+
+            if ($request->has('estado')) {
+                $query->where('estado', $request->estado);
+            }
+
+            $sanciones = $query->paginate($request->per_page ?? 15);
+            
+            return SancionResource::collection($sanciones);
+        } catch (\Exception $e) {
+            Log::error('Error al listar sanciones por libro: ' . $e->getMessage());
+            return response()->json(['error' => 'Error al obtener las sanciones'], 500);
+        }
+    }
 }

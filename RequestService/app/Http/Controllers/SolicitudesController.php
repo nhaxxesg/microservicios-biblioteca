@@ -17,6 +17,20 @@ class SolicitudesController extends Controller
     }
 
     /**
+     * Obtener todas las solicitudes de un usuario específico.
+     */
+    public function solicitudesPorUsuario($id_usuario)
+    {
+        $solicitudes = Solicitudes::where('id_usuario', $id_usuario)->get();
+        
+        if ($solicitudes->isEmpty()) {
+            return response()->json(['mensaje' => 'No se encontraron solicitudes para este usuario'], 404);
+        }
+        
+        return response()->json($solicitudes, 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

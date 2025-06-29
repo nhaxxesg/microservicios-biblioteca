@@ -12,6 +12,7 @@ class Sancion extends Model
 
     protected $fillable = [
         'usuario_id',
+        'book_id',
         'motivo',
         'fecha_inicio',
         'fecha_fin',
@@ -33,5 +34,10 @@ class Sancion extends Model
         return $query->where('estado', 'activa')
                     ->where('fecha_inicio', '<=', now())
                     ->where('fecha_fin', '>', now());
+    }
+
+    public function scopePorLibro($query, $bookId)
+    {
+        return $query->where('book_id', $bookId);
     }
 }

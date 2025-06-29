@@ -22,7 +22,8 @@ class StoreSancionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'usuario_id' => 'required|integer|exists:users,id',
+            'usuario_id' => 'required|integer',
+            'book_id' => 'required|integer',
             'motivo' => 'required|string',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after:fecha_inicio',
@@ -34,7 +35,9 @@ class StoreSancionRequest extends FormRequest
     {
         return [
             'usuario_id.required' => 'El ID del usuario es requerido',
-            'usuario_id.exists' => 'El usuario especificado no existe',
+            'usuario_id.integer' => 'El ID del usuario debe ser un número entero',
+            'book_id.required' => 'El ID del libro es requerido',
+            'book_id.integer' => 'El ID del libro debe ser un número entero',
             'motivo.required' => 'El motivo es requerido',
             'fecha_inicio.required' => 'La fecha de inicio es requerida',
             'fecha_fin.required' => 'La fecha de fin es requerida',

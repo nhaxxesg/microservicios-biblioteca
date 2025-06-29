@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('loan_date');
             $table->date('f_devolucion_establecida');
             $table->date('f_devolucion_real')->nullable();
-            $table->enum('estado', ['pendiente', 'devuelto'])->default('pendiente');
+            $table->enum('estado', ['pendiente', 'devuelto', 'activo'])->default('pendiente');
             $table->timestamps();
         });
     }

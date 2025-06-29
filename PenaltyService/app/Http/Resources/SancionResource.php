@@ -17,6 +17,7 @@ class SancionResource extends JsonResource
         return [
             'id' => $this->id,
             'usuario_id' => $this->usuario_id,
+            'book_id' => $this->book_id,
             'motivo' => $this->motivo,
             'fecha_inicio' => $this->fecha_inicio,
             'fecha_fin' => $this->fecha_fin,
