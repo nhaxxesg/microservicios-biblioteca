@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\book;
+use App\Models\LibroCategorias;
 use Illuminate\Http\Request;
 
 class bookController extends Controller
@@ -33,7 +34,17 @@ class bookController extends Controller
 
         return response()->json($libro, 201);
     }
+    public function storeWithCategories(Request $request)
+    {
+        $validated = $request->validate([
+            'libro_id' => 'required|exists:book,id', 
+            'id_categoria' => 'required|integer' 
+        ]);
 
+        $categoria = LibroCategorias::create($validated);
+
+        return response()->json($categoria, 201);
+    }
     /**
      * Display the specified resource.
      */

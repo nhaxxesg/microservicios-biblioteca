@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('book', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_autor');
+            $table->string('autor');
             $table->string('titulo');
             $table->integer('anio_publicacion');
             $table->integer('ejemplares')->default(1);

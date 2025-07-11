@@ -75,6 +75,7 @@ class AuthController extends BaseController
             'name'     => $credentials['name'],
             'email'    => $credentials['email'],
             'password' => $credentials['password'], // Sin bcrypt, lo hará el servicio
+            'estado'   => $credentials['estado'] ?? 'activo', // Estado por defecto
             'role_id'  => $credentials['role_id'] ?? 1,
         ]);
     

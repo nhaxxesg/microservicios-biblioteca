@@ -28,4 +28,10 @@ class book extends Model
         'anio_publicacion' => 'integer',
     ];
 
+    // Relación con LibroCategorias
+    public function categorias()
+    {
+        return $this->hasMany(LibroCategorias::class, 'libro_id');
+    }      
+
 }

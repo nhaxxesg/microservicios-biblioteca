@@ -13,17 +13,10 @@ return new class extends Migration
     {
         Schema::create('sancions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id');
-            $table->text('motivo');
-            $table->timestamp('fecha_inicio');
-            $table->timestamp('fecha_fin');
-            $table->string('estado', 50);
+            $table->integer('usuario_id');
+            $table->string('motivo');
+            $table->string('estado')->default('pendiente');
             $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('usuario_id');
-            $table->index('estado');
-            $table->index('deleted_at');
         });
     }
 

@@ -8,3 +8,4 @@ Route::get('prestamos',[LoansController::class, 'index']);
 Route::get('prestamos/{id}', [LoansController::class, 'show']);
 Route::post('prestamos', [LoansController::class, 'store']);
 Route::put('prestamos/{id}', [LoansController::class, 'update']);
+
